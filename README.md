@@ -2,11 +2,31 @@
 
 > uLaunch is a custom, open-source replacement/reimplementation for the Nintendo Switch's HOME menu (qlaunch), extending it with amazing, homebrew-oriented features!
 
-<img src="Screenshots/s1.png" alt="drawing" width="400"/> <img src="Screenshots/s2.png" alt="drawing" width="400"/>
+## Forked from [XorTroll/uLaunch](https://github.com/XorTroll/uLaunch/)!
 
-<img src="Screenshots/s3.png" alt="drawing" width="400"/> <img src="Screenshots/s4.png" alt="drawing" width="400"/>
+This fork merges some upstream PRs that were never accepted to fix bugs with menuing.  It also adds the ability to use custom icons for folders in the main menu.
 
-<img src="Screenshots/s5.png" alt="drawing" width="400"/> <img src="Screenshots/s6.png" alt="drawing" width="400"/>
+### Custom menu configuration
+
+On startup, uLaunch looks in the `/ulaunch/entries` directory, reading the files in numerical order.  Each file is a json entry defining the item.  The entry must have a type - type 1 is an installed application, type 2 is a custom homebrew nro.  Type 1 must have an `application_id` field set.  Type two must have a `nro_path` set to the .nro binary (and optional `nro_argv`).  All other fields are the same.  A sample entry for a retroarch title is as follows:
+
+```
+{
+    "type": 2,
+    "nro_path": "sdmc:/retroarch/cores/nestopia_libretro_libnx.nro",
+    "nro_argv": "\"sdmc:/roms/nes/My Custom Rom.nes\"",
+    "folder": "NES",
+    "folder_icon": "sdmc:/icons/nes.png",
+    "name": "My Custom Rom",
+    "author": "Me",
+    "version": "NES",
+    "icon": "sdmc:/retroarch/thumbnails/Nintendo - Nintendo Entertainment System/Named_Boxarts/My Custom Rom.png"
+}
+```
+
+In this setup, all entries with the same `folder` field are grouped together.  The *first* entry containing that folder name may also specify a `folder_icon` to display a custom icon for the folder.  All other entries with the same folder name ignore the `folder_icon` field.
+
+---
 
 uLaunch is a project which aims to replace the console's **HOME menu** with a custom, homebrew-oriented one.
 
@@ -14,7 +34,7 @@ uLaunch is a project which aims to replace the console's **HOME menu** with a cu
 
 - For those who are interested in how the UI was done, this project is, like [Goldleaf](https://github.com/XorTroll/Goldleaf), a good example of how powerful [Plutonium libraries](https://github.com/XorTroll/Plutonium) can be in order to make beautiful UIs.
 
-## Get it from [here](https://github.com/XorTroll/uLaunch/releases/latest)!
+
 
 ### Want to create **custom forwarders** (eg. RetroArch ones)? check **uViewer** tool in [latest releases](https://github.com/XorTroll/uLaunch/releases/latest)!
 
@@ -101,6 +121,25 @@ You will need devkitPro, devkitA64, libnx and all SDL2 libraries for switch deve
 Clone (**recursively!**) this repo (since it uses Atmosphere-libs and Plutonium submodules) and just enter `make` in the command line. It should build everything and generate a `SdOut` folder whose contents sould directly be copied to the root of a console SD card.
 
 In order to only build a certain subproject, you can run `make` plus the subproject's name (`make daemon`, `make hbtarget` or `make menu`).
+
+## Compiling with Docker
+
+TODO: Streamline this
+
+```    # Run environment
+    $ docker-compose up -d
+
+    # Connect to the environment
+    $ docker-compose exec switch bash
+
+    # Update packages
+    $ dkp-pacman -Syu
+
+    # Build
+    $ make -j$(nproc)
+```
+
+
 
 ## Credits
 

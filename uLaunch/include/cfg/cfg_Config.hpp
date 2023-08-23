@@ -47,6 +47,7 @@ namespace cfg {
 
     struct TitleFolder {
         std::string name;
+        std::string icon; // custom icon, if specified
         std::vector<TitleRecord> titles;
     };
 

@@ -538,9 +538,11 @@ namespace cfg {
                                     STL_UNWRAP(find_folder).titles.push_back(rec);
                                 }
                                 else {
-                                    TitleFolder title_folder = {
-                                        .name = folder
-                                    };
+                                // somewhat hacky, but first entry with folder can specify icon path
+                                TitleFolder title_folder = {
+                                    .name = folder,
+                                    .icon = entry.value("folder_icon", "")
+                                };
                                     title_folder.titles.push_back(rec);
 
                                     list.folders.push_back(title_folder);
@@ -577,8 +579,10 @@ namespace cfg {
                                 STL_UNWRAP(find_folder).titles.push_back(rec);
                             }
                             else {
+                                // somewhat hacky, but first entry with folder can specify icon path
                                 TitleFolder title_folder = {
-                                    .name = folder
+                                    .name = folder,
+                                    .icon = entry.value("folder_icon", "")
                                 };
                                 title_folder.titles.push_back(rec);
 

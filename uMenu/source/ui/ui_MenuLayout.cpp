@@ -61,7 +61,12 @@ namespace ui {
                 // Remove empty folders
                 STL_REMOVE_IF(g_EntryList.folders, folder, folder.titles.empty());
                 for(const auto &folder: g_EntryList.folders) {
-                    this->items_menu->AddItem(cfg::GetAssetByTheme(g_Theme, "ui/Folder.png"), folder.name);
+                    if(folder.icon.empty()) {
+                        this->items_menu->AddItem(cfg::GetAssetByTheme(g_Theme, "ui/Folder.png"), folder.name);
+                    }
+                    else {
+                        this->items_menu->AddItem(folder.icon, folder.name);
+                    }
                 }
             }
         }
